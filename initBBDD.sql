@@ -1,0 +1,7 @@
+CREATE DATABASE futbol;
+
+USE futbol;
+
+CREATE TABLE jugadores (
+    id INT AUTO_INCREMENT PRIMARY KEY
+);
