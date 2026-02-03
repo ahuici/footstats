@@ -1,3 +1,4 @@
+drop database footstats;
 CREATE DATABASE FOOTSTATS;
 
 USE FOOTSTATS;
@@ -5,6 +6,7 @@ USE FOOTSTATS;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pwd VARCHAR(200),
+    username VARCHAR(200),
     name VARCHAR(200),
     surname VARCHAR(200),
     age INT,
