@@ -28,13 +28,27 @@
             
             <form action="index.php" method="POST">
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Nombre usuario" required value="<?php if(isset($username)) echo $username ?>">
-                    <span class="error"><?php if (isset($errores["username"])) echo $errores["username"]?></span><br/>
+                    <input type="text"
+                        class="form-control <?php if (isset($errores['username'])) echo 'is-invalid'; ?>"
+                        id="username" name="username"
+                        placeholder="Nombre usuario"
+                        required
+                        value="<?php if (isset($username)) echo $username; ?>">
+                    <div class="invalid-feedback">
+                        <?php if (isset($errores["username"])) echo $errores["username"]; ?>
+                    </div>
                 </div>
 
                 <div class="mb-3">
-                    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="********" required value="<?php if(isset($pwd)) echo $pwd ?>">
-                    <span class="error"><?php if (isset($errores["pwd"])) echo $errores["pwd"]?></span><br/>
+                    <input type="password"
+                        class="form-control <?php if (isset($errores['pwd'])) echo 'is-invalid'; ?>"
+                        id="pwd" name="pwd"
+                        placeholder="********"
+                        required
+                        value="<?php if (isset($pwd)) echo $pwd; ?>">
+                    <div class="invalid-feedback text-center">
+                        <?php if (isset($errores["pwd"])) echo $errores["pwd"]; ?>
+                    </div>
                 </div>
 
                 <div class="d-grid mt-4">

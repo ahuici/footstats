@@ -51,7 +51,7 @@ else if (isset($_POST["loginUsuario"])) {
     if (empty($errores)) {
         $respuestaLogin = login($conexion, $username, $pwd);
         if (!$respuestaLogin){
-            if (empty($pwd)) $errores["pwd"] = "Contraseña incorrecta!";
+             $errores["pwd"] = "Contraseña incorrecta!";
             include __DIR__ . "/../vistas/login.php";
             exit();
         }
