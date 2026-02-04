@@ -7,7 +7,7 @@ require_once __DIR__ . '/../config/database.php';
  * @return array Resultado de la consulta con todos los usuarios.
  */
 
- function getAll($conexion) {
+ function getAllUsers($conexion) {
     $sql = "SELECT * FROM users";
     $resultado = mysqli_query($conexion, $sql);
     return $resultado;
@@ -72,5 +72,23 @@ function edit($conexion, $nombre, $alias, $descripcion, $id) {
     if (!$resultado) return false;
     return true;
  }
+
+function login($conexion, $username, $passwordPlano) {
+    $sql = "SELECT id, pwd, username, name, surname, privilege
+            FROM users
+            WHERE username = ? AND pwd = ?";
+    $stmt = mysqli_prepare($conexion, $sql);
+    if (!$stmt) return false;
+
+    mysqli_stmt_bind_param($stmt, "ss", $username, $passwordPlano);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($resultado) === 1) {
+        return true;
+    }
+    return false;
+}
+
 
 ?>

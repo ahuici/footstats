@@ -5,48 +5,61 @@ include __DIR__."/../config/database.php";
 
 
 
-if (!isset($_GET["page"]) && !isset($_POST["agregar"])&& !isset($_POST["editar"])){
-    $allUsers = getAll($conexion);
-    include __DIR__."/../vistas/lista_usuarios.php";
+if (!isset($_GET["page"]) && !isset($_POST["agregarUsuario"])&& !isset($_POST["loginUsuario"])){
+    include __DIR__."/../vistas/login.php";
     exit();
 }
 
-else if (isset($_POST["agregar"])){
-    $nombre = trim(htmlspecialchars($_POST["nombre"]));
-    $alias = trim(htmlspecialchars($_POST["alias"]));
-    $descripcion = trim(htmlspecialchars($_POST["descripcion"]));
-    $errores = array();
+else if (isset($_POST["agregarUsuario"])) {
+    $username = trim(htmlspecialchars($_POST["username"]));
+    $pwd      = trim($_POST["pwd"]); // luego la puedes hashear
+    $name     = trim(htmlspecialchars($_POST["name"]));
+    $surname  = trim(htmlspecialchars($_POST["surname"]));
+    $age      = intval($_POST["age"]);
+    $gender   = $_POST["gender"] ?? 'otro';
+    $privilege = intval($_POST["privilege"] ?? 1);
 
-    if(empty($nombre)) $errores["nombre"] = "Introduce un nombre";
+    $errores = [];
 
-    if (empty($errores)){
-        añadirCriminal($conexion, $nombre, $alias, $descripcion);
-        $allCriminales = getAll($conexion);
-        include __DIR__."/../vistas/lista_criminales.php";
+    if (empty($username)) $errores["username"] = "Introduce un nombre de usuario";
+    if (empty($pwd))      $errores["pwd"]      = "Introduce una contraseña";
+    if (empty($name))     $errores["name"]     = "Introduce un nombre";
+    if (empty($surname))  $errores["surname"]  = "Introduce un apellido";
+
+    if (empty($errores)) {
+        // opcional: $pwdHash = password_hash($pwd, PASSWORD_DEFAULT);
+        crearUsuario($conexion, $pwd, $username, $name, $surname, $age, $gender, $privilege);
+        $allUsers = getAllUsers($conexion);
+        include __DIR__ . "/../vistas/lista_usuarios.php";
         exit();
-    }
-    else{
-        include __DIR__."/../vistas/agregar_criminal.php";
+    } else {
+        include __DIR__ . "/../vistas/agregar_usuario.php";
         exit();
     }
 }
-else if (isset($_POST["editar"])){
-    $nombre = trim(htmlspecialchars($_POST["nombre"]));
-    $alias = trim(htmlspecialchars($_POST["alias"]));
-    $descripcion = trim(htmlspecialchars($_POST["descripcion"]));
+
+/* LOGICA DEL LOGIN */
+else if (isset($_POST["loginUsuario"])) {
+    $username  = trim(htmlspecialchars($_POST["username"]));
+    $pwd       = trim($_POST["pwd"]); // luego la puedes hashear
+
     $errores = array();
 
-    if(empty($nombre)) $errores["nombre"] = "Introduce un nombre";
+    if (empty($username)) $errores["username"] = "Introduce un nombre de usuario";
+    if (empty($pwd))      $errores["pwd"]      = "Introduce una contraseña";
 
-    if (empty($errores)){
-        edit($conexion, $nombre, $alias, $descripcion, $_POST["idCriminal"]);
-        $allCriminales = getAll($conexion);
-        include __DIR__."/../vistas/lista_criminales.php";
+    if (empty($errores)) {
+        $respuestaLogin = login($conexion, $username, $pwd);
+        if (!$respuestaLogin){
+            if (empty($pwd)) $errores["pwd"] = "Contraseña incorrecta!";
+            include __DIR__ . "/../vistas/login.php";
+            exit();
+        }
+        $allUsers = getAllUsers($conexion);
+        include __DIR__ . "/../vistas/lista_usuarios.php";
         exit();
-    }
-    else{
-        $criminarlRaw = findByID($conexion, $_POST["idCriminal"]);
-        include __DIR__."/../vistas/editar_criminal.php";
+    } else {
+        include __DIR__ . "/../vistas/login.php";
         exit();
     }
 }
@@ -58,31 +71,14 @@ else if (isset($_POST["editar"])){
 
 // Manejar las diferentes páginas
 switch ($_GET["page"]) {
-    case 'ver':
-        $allCriminales = getAll($conexion);
-        include __DIR__."/../vistas/lista_criminales.php";
+    case 'login':
+        $allCriminales = getAllUsers($conexion);
+        include __DIR__."/../vistas/login.php";
         exit();
     
-    case 'agregar':
-        include __DIR__."/../vistas/agregar_criminal.php";
+    case 'users':
+        include __DIR__."/../vistas/lista_usuarios.php";
         exit();
-
-    case 'editar':
-        $criminarlRaw = findByID($conexion, $_GET["idEditar"]);
-        include __DIR__."/../vistas/editar_criminal.php";
-        exit();
-
-    case 'eliminar': 
-        deleteByID($conexion, $_GET["idEliminar"]);
-        $allCriminales = getAll($conexion);
-        include __DIR__."/../vistas/lista_criminales.php";
-        exit();
-
-    case 'detalles': 
-        $criminarlRaw = findByID($conexion , $_GET["idDetalles"]);
-        include __DIR__."/../vistas/ver_criminal.php";
-        exit();
-    
     default:
         $error = "Esa pagina no existe";
         include __DIR__."/../vistas/error.php";

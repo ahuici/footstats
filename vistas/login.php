@@ -26,17 +26,19 @@
         <div class="card-body p-5">
             <h3 class="text-center mb-4">Iniciar Sesión</h3>
             
-            <form action="login.php" method="POST">
+            <form action="index.php" method="POST">
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Nombre de Usuario" required>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Nombre usuario" required value="<?php if(isset($username)) echo $username ?>">
+                    <span class="error"><?php if (isset($errores["username"])) echo $errores["username"]?></span><br/>
                 </div>
 
                 <div class="mb-3">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="********" required value="<?php if(isset($pwd)) echo $pwd ?>">
+                    <span class="error"><?php if (isset($errores["pwd"])) echo $errores["pwd"]?></span><br/>
                 </div>
 
                 <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-primary">Entrar al Sistema</button>
+                    <button type="submit" name="loginUsuario" value="loginUsuario" class="btn btn-primary">Entrar al Sistema</button>
                 </div>
             </form>
             
