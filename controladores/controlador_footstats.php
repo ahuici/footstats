@@ -6,8 +6,8 @@ include __DIR__."/../config/database.php";
 
 
 if (!isset($_GET["page"]) && !isset($_POST["agregar"])&& !isset($_POST["editar"])){
-    $allCriminales = getAll($conexion);
-    // include __DIR__."/../vistas/lista_criminales.php";
+    $allUsers = getAll($conexion);
+    include __DIR__."/../vistas/lista_usuarios.php";
     exit();
 }
 

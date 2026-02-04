@@ -2,9 +2,9 @@
 require_once __DIR__ . '/../config/database.php';
 
 /**
- * Función que obtiene todos los criminales de la base de datos.
+ * Función que obtiene todos los usuarios de la base de datos.
  *
- * @return array Resultado de la consulta con todos los criminales.
+ * @return array Resultado de la consulta con todos los usuarios.
  */
 
  function getAll($conexion) {
@@ -22,13 +22,13 @@ require_once __DIR__ . '/../config/database.php';
  */
 
 function findByID($conexion, $id){
-   $sql = "SELECT * FROM criminales WHERE id = '$id'";
+   $sql = "SELECT * FROM users WHERE id = '$id'";
    $resultado = mysqli_query($conexion, $sql);
    return $resultado;
 }
 
 /**
- * Función que agrega un nuevo criminal a la base de datos.
+ * Función que agrega un nuevo usuario a la base de datos.
  *
  * @param string $nombre Nombre del criminal.
  * @param string $alias Alias del criminal.
@@ -36,13 +36,12 @@ function findByID($conexion, $id){
  * @return bool Éxito o fracaso de la operación.
  */
 
-function añadirCriminal($conexion, $nombre, $alias, $descripcion) {
-    $sql = "INSERT INTO criminales (nombre, alias, descripcion) values ('$nombre', '$alias', '$descripcion')";
+function crearUsuario($conexion, $pwd, $username, $name, $surname, $age, $gender, $privilege) {
+    $sql = "INSERT INTO users (pwd, username, name, surname, age, gender, privilege) VALUES ('$pwd', '$username', '$name', '$surname', $age, '$gender', $privilege)";
     $resultado = mysqli_query($conexion, $sql);
-
-    if (!$resultado) return false;
-    return true;
+    return $resultado ? true : false;
 }
+
 
 /**
  * Función que edita la información de un criminal existente.
