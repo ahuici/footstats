@@ -55,6 +55,20 @@ else if (isset($_POST["loginUsuario"])) {
             include __DIR__ . "/../vistas/login.php";
             exit();
         }
+
+        /* COOKIES PARA VERIFICAR QUE HAS INICIADO SESION
+        * Mete en una cookie un numero random que al dividir entre 69 sea entero
+        */
+        $minK = intdiv(1000000000, 69) + 1;
+        $maxK = $minK + 1000000000;              
+
+        $k = random_int($minK, $maxK);
+        $valorCookie = $k * 69;  
+
+        // crear la cookie (1 hora de duración, en todo el sitio)
+        setcookie('UUID_Login', $valorCookie, time() + 3600, '/');
+        
+
         $allPlayers = getAllplayers($conexion);
         include __DIR__ . "/../vistas/lista_players.php";
         exit();
@@ -77,15 +91,21 @@ switch ($_GET["page"]) {
         exit();
     
     case 'verPlayers':
+        comprobarCookieSesion();
+
         $allPlayers = getAllplayers($conexion);
         include __DIR__."/../vistas/lista_players.php";
         exit();
 
     case 'addPlayers':
+        comprobarCookieSesion();
+
         include __DIR__."/../vistas/lista_usuarios.php";
         exit();
 
     case 'editarPerfil':
+        comprobarCookieSesion();
+
         include __DIR__."/../vistas/lista_usuarios.php";
         exit();
 
@@ -94,5 +114,13 @@ switch ($_GET["page"]) {
         include __DIR__."/../vistas/error.php";
         break;
 }
+function comprobarCookieSesion() {
+    if (!isset($_COOKIE['UUID_Login']) 
+        || $_COOKIE['UUID_Login'] <= 999999999 
+        || $_COOKIE['UUID_Login'] % 69 !== 0) {
 
+        header('Location: index.php');
+        exit();
+    }
+}
 ?>
