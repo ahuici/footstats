@@ -200,10 +200,10 @@
                     
                     <!-- NUEVOS BOTONES CTA -->
                     <div class="d-flex flex-column flex-sm-row gap-3 mb-4 justify-content-center justify-content-lg-start">
-                        <a href="login.php" class="btn btn-outline-light btn-lg px-4 py-2 fw-semibold border-2 shadow-sm">
+                        <a href="index.php?page=login" class="btn btn-outline-light btn-lg px-4 py-2 fw-semibold border-2 shadow-sm">
                             <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
                         </a>
-                        <a href="register.php" class="btn btn-light btn-lg px-4 py-2 fw-semibold shadow-sm">
+                        <a href="index.php?page=register" class="btn btn-light btn-lg px-4 py-2 fw-semibold shadow-sm">
                             <i class="bi bi-person-plus me-2"></i>Registrarse
                         </a>
                     </div>

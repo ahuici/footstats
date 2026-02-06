@@ -71,26 +71,6 @@
         </div>
     </nav>
 
-    <main class="container main-container">
-        <?php
-        // Estructura básica para cargar las páginas
-        $page = isset($_GET['page']) ? $_GET['page'] : 'verPlayers';
-
-        echo "<div class='mb-4 border-bottom pb-2'>";
-        echo "<h2 class='text-capitalize fw-bold text-secondary'>" . str_replace('add', 'Agregar ', $page) . "</h2>";
-        echo "</div>";
-
-        /* Aquí incluirías tu lógica de PHP: 
-           include "pages/" . $page . ".php"; 
-        */
-        ?>
-        
-        <div class="text-center py-5 text-muted">
-            <i class="bi bi- clipboard-data display-1"></i>
-            <p class="mt-3">Selecciona una opción del menú para gestionar tus estadísticas.</p>
-        </div>
-    </main>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

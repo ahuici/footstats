@@ -89,6 +89,12 @@ switch ($_GET["page"]) {
         $allCriminales = getAllUsers($conexion);
         include __DIR__."/../vistas/login.php";
         exit();
+
+    case 'register':
+        $allCriminales = getAllUsers($conexion);
+        include __DIR__."/../vistas/register.php";
+        exit();
+    
     
     case 'verPlayers':
         comprobarCookieSesion();
@@ -116,7 +122,6 @@ switch ($_GET["page"]) {
 }
 function comprobarCookieSesion() {
     if (!isset($_COOKIE['UUID_Login']) 
-        || $_COOKIE['UUID_Login'] <= 999999999 
         || $_COOKIE['UUID_Login'] % 69 !== 0) {
 
         header('Location: index.php');
