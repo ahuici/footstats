@@ -195,9 +195,20 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 hero-content">
                     <h1>FootStats</h1>
-                    <p class="lead mb-5">Las estadísticas más completas de fútbol y futbolistas en tiempo real. 
+                    <p class="lead mb-4">Las estadísticas más completas de fútbol y futbolistas en tiempo real. 
                        Analiza, compara y descubre los mejores datos del mundo del fútbol.</p>
-                    <a href="#estadisticas" class="btn btn-explore btn-lg">
+                    
+                    <!-- NUEVOS BOTONES CTA -->
+                    <div class="d-flex flex-column flex-sm-row gap-3 mb-4 justify-content-center justify-content-lg-start">
+                        <a href="login.php" class="btn btn-outline-light btn-lg px-4 py-2 fw-semibold border-2 shadow-sm">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+                        </a>
+                        <a href="register.php" class="btn btn-light btn-lg px-4 py-2 fw-semibold shadow-sm">
+                            <i class="bi bi-person-plus me-2"></i>Registrarse
+                        </a>
+                    </div>
+                    
+                    <a href="#estadisticas" class="btn btn-explore btn-lg ms-lg-3">
                         <i class="bi bi-graph-up me-2"></i>Explorar Estadísticas
                     </a>
                 </div>
