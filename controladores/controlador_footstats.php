@@ -55,8 +55,8 @@ else if (isset($_POST["loginUsuario"])) {
             include __DIR__ . "/../vistas/login.php";
             exit();
         }
-        $allUsers = getAllUsers($conexion);
-        include __DIR__ . "/../vistas/lista_usuarios.php";
+        $allPlayers = getAllplayers($conexion);
+        include __DIR__ . "/../vistas/lista_players.php";
         exit();
     } else {
         include __DIR__ . "/../vistas/login.php";
@@ -76,9 +76,19 @@ switch ($_GET["page"]) {
         include __DIR__."/../vistas/login.php";
         exit();
     
-    case 'users':
+    case 'verPlayers':
+        $allPlayers = getAllplayers($conexion);
+        include __DIR__."/../vistas/lista_players.php";
+        exit();
+
+    case 'addPlayers':
         include __DIR__."/../vistas/lista_usuarios.php";
         exit();
+
+    case 'editarPerfil':
+        include __DIR__."/../vistas/lista_usuarios.php";
+        exit();
+
     default:
         $error = "Esa pagina no existe";
         include __DIR__."/../vistas/error.php";
