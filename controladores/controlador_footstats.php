@@ -11,29 +11,46 @@ if (!isset($_GET["page"]) && !isset($_POST["agregarUsuario"])&& !isset($_POST["l
 }
 
 else if (isset($_POST["agregarUsuario"])) {
-    $username  = trim(htmlspecialchars($_POST["username"] ?? ''));
-    $pwdPlain  = trim($_POST["pwd"] ?? '');
-    $name      = trim(htmlspecialchars($_POST["name"] ?? ''));
-    $surname   = trim(htmlspecialchars($_POST["surname"] ?? ''));
-    $age       = intval($_POST["age"] ?? 0);
-    $gender    = $_POST["gender"] ?? 'otro';
-    $privilege = intval($_POST["privilege"] ?? 1);
+    $username  = trim($_POST["username"] ?? '');
+    $pwdPlain  = trim($_POST["password"] ?? ''); // Nombre del campo en tu HTML
+    $name      = trim($_POST["nombre"] ?? '');
+    $surname   = trim($_POST["apellido"] ?? '');
+    $age       = intval($_POST["edad"] ?? 0);
+    $gender    = $_POST["genero"] ?? 'Otro';
+    $privilege = 1;
 
     $errores = [];
 
-    if (empty($username)) $errores["username"] = "Introduce un nombre de usuario";
-    if (empty($pwdPlain)) $errores["pwd"]      = "Introduce una contraseña";
-    if (empty($name))     $errores["name"]     = "Introduce un nombre";
-    if (empty($surname))  $errores["surname"]  = "Introduce un apellido";
+    // Validaciones de "admin" (en minúsculas para atrapar variaciones)
+    if (strtolower($username) == "admin") {
+        $errores["username"] = "El usuario no puede ser admin.";
+    }
+    if (strtolower($pwdPlain) == "admin") {
+        $errores["pwd"] = "La contraseña no puede ser admin.";
+    }
 
+    // Validaciones de longitud
+    if (strlen($username) < 6) {
+        $errores["username"] = "Mínimo 6 caracteres para el usuario.";
+    }
+    if (strlen($pwdPlain) < 11) {
+        $errores["pwd"] = "Mínimo 11 caracteres para la contraseña.";
+    }
+
+    // Validación de complejidad (Mayúscula, Minúscula y Especial)
+    if (!preg_match('/[A-Z]/', $pwdPlain) || 
+        !preg_match('/[a-z]/', $pwdPlain) || 
+        !preg_match('/[^a-zA-Z0-9]/', $pwdPlain)) {
+        $errores["pwd"] = "Falta mayúscula, minúscula o carácter especial.";
+    }
+
+    // Procesar si no hay errores
     if (empty($errores)) {
-        $pwdHash = password_hash($pwdPlain, PASSWORD_DEFAULT); // recomendado[web:72][web:78]
+        $pwdHash = password_hash($pwdPlain, PASSWORD_DEFAULT);
         crearUsuario($conexion, $pwdHash, $username, $name, $surname, $age, $gender, $privilege);
-
         include __DIR__ . "/../vistas/login.php";
         exit();
     } else {
-        var_dump($errores);
         include __DIR__ . "/../vistas/register.php";
         exit();
     }
