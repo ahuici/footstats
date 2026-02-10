@@ -8,15 +8,14 @@
     <style>
         body {
             background-color: #f8f9fa;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
         .register-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 400px; /* Igual al login para mantener simetría */
         }
     </style>
 </head>
@@ -24,40 +23,33 @@
 
 <div class="register-container">
     <div class="card shadow">
-        <div class="card-body p-4">
-            <h3 class="text-center mb-4">Crear Cuenta</h3>
+        <div class="card-body p-5"> <h3 class="text-center mb-4">Crear Cuenta</h3>
             
             <form action="registrar_usuario.php" method="POST">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="nombre" required>
+                <div class="row g-2 mb-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Apellido</label>
-                        <input type="text" class="form-control" name="apellido" required>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="apellido" placeholder="Apellido" required>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Nombre de Usuario</label>
-                    <input type="text" class="form-control" name="username" required>
+                    <input type="text" class="form-control" name="username" placeholder="Nombre usuario" required>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" name="password" required>
+                    <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Edad</label>
-                        <input type="number" class="form-control" name="edad" min="1" max="120" required>
+                <div class="row g-2 mb-3">
+                    <div class="col-md-5">
+                        <input type="number" class="form-control" name="edad" min="1" max="120" placeholder="Edad" required>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Género</label>
+                    <div class="col-md-7">
                         <select class="form-select" name="genero" required>
-                            <option value="" selected disabled>Elegir...</option>
+                            <option value="" selected disabled>Género...</option>
                             <option value="Masculino">Masculino</option>
                             <option value="Femenino">Femenino</option>
                             <option value="Otro">Otro</option>
@@ -65,13 +57,13 @@
                     </div>
                 </div>
 
-                <div class="d-grid mt-3">
-                    <button type="submit" class="btn btn-success">Registrarse</button>
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
                 </div>
             </form>
             
             <div class="text-center mt-3">
-                <small class="text-muted">¿Ya tienes cuenta? <a href="/login.php">Inicia sesión</a></small>
+                <small class="text-muted">¿Ya tienes cuenta? <a href="index.php?page=login">Inicia sesión</a></small>
             </div>
         </div>
     </div>

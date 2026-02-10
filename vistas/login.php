@@ -57,7 +57,7 @@
             </form>
             
             <div class="text-center mt-3">
-                <small class="text-muted">¿No tienes cuenta? <a href="/register.php">Regístrate aquí</a></small>
+                <small class="text-muted">¿No tienes cuenta? <a href="index.php?page=register">Regístrate aquí</a></small>
             </div>
         </div>
     </div>
