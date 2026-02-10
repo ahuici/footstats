@@ -188,7 +188,34 @@
         }
     </style>
 </head>
+<?php if (!empty($logout)) : ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var el = document.getElementById('logoutModal');
+    if (!el) return;
+    var myModal = new bootstrap.Modal(el);
+    myModal.show();
+});
+</script>
+<?php endif; ?>
 <body>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"><!-- centrado verticalmente -->
+        <div class="modal-content">
+        <div class="modal-header py-2 border-0"><!-- border-0 quita la línea superior -->
+        </div>
+        <div class="modal-body text-center">
+            Has cerrado sesión!
+        </div>
+        <div class="modal-footer border-0 d-flex justify-content-center"><!-- border-0 y centrado -->
+            <button type="button" class="btn btn-primary btn-sm px-4" data-bs-dismiss="modal">Aceptar</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">

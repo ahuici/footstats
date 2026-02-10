@@ -63,7 +63,7 @@
                         <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li><a class="dropdown-item" href="?page=editarPerfil">Configuración</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="logout.php">Cerrar Sesión</a></li>
+                            <li><a class="dropdown-item text-danger" href="?page=logout">Cerrar Sesión</a></li>
                         </ul>
                     </li>
                 </ul>

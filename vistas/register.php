@@ -25,13 +25,13 @@
     <div class="card shadow">
         <div class="card-body p-5"> <h3 class="text-center mb-4">Crear Cuenta</h3>
             
-            <form action="registrar_usuario.php" method="POST">
+            <form action="index.php" method="POST">
                 <div class="row g-2 mb-3">
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
+                        <input type="text" class="form-control" name="name" placeholder="Nombre" required>
                     </div>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="apellido" placeholder="Apellido" required>
+                        <input type="text" class="form-control" name="surname" placeholder="Apellido" required>
                     </div>
                 </div>
 
@@ -40,25 +40,25 @@
                 </div>
 
                 <div class="mb-3">
-                    <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+                    <input type="password" class="form-control" name="pwd" placeholder="Contraseña" required>
                 </div>
 
                 <div class="row g-2 mb-3">
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="edad" min="1" max="120" placeholder="Edad" required>
+                        <input type="number" class="form-control" name="age" min="1" max="120" placeholder="Edad" required>
                     </div>
                     <div class="col-md-7">
-                        <select class="form-select" name="genero" required>
-                            <option value="" selected disabled>Género...</option>
-                            <option value="Masculino">Masculino</option>
-                            <option value="Femenino">Femenino</option>
-                            <option value="Otro">Otro</option>
+                        <select class="form-select" name="gender" required>
+                            <option value="" selected disabled>Género</option>
+                            <option value="hombre">Masculino</option>
+                            <option value="mujer">Femenino</option>
+                            <option value="otro">Otro</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                    <button type="submit" class="btn btn-primary" value="agregarUsuario" name="agregarUsuario">Registrarse</button>
                 </div>
             </form>
             

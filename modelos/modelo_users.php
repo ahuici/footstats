@@ -36,10 +36,46 @@ function findByID($conexion, $id){
  * @return bool Éxito o fracaso de la operación.
  */
 
+/**
+ * Función que agrega un nuevo usuario a la base de datos.
+ *
+ * @param mysqli $conexion Conexión a la base de datos.
+ * @param string $pwd Contraseña (idealmente ya hasheada).
+ * @param string $username Nombre de usuario.
+ * @param string $name Nombre real.
+ * @param string $surname Apellidos.
+ * @param int    $age Edad.
+ * @param string $gender 'hombre', 'mujer' u 'otro'.
+ * @param int    $privilege Nivel de privilegio.
+ * @return bool  Éxito o fracaso de la operación.
+ */
 function crearUsuario($conexion, $pwd, $username, $name, $surname, $age, $gender, $privilege) {
-    $sql = "INSERT INTO users (pwd, username, name, surname, age, gender, privilege) VALUES ('$pwd', '$username', '$name', '$surname', $age, '$gender', $privilege)";
-    $resultado = mysqli_query($conexion, $sql);
-    return $resultado ? true : false;
+    $sql = "INSERT INTO users 
+            (pwd, username, name, surname, age, gender, privilege) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = mysqli_prepare($conexion, $sql);
+    if (!$stmt) {
+        return false;
+    }
+
+    // s = string, i = int
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssssisi",
+        $pwd,       // s
+        $username,  // s
+        $name,      // s
+        $surname,   // s
+        $age,       // i
+        $gender,    // s (ENUM se pasa como string)
+        $privilege  // i
+    );
+
+    $ok = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    return $ok;
 }
 
 
@@ -76,19 +112,30 @@ function edit($conexion, $nombre, $alias, $descripcion, $id) {
 function login($conexion, $username, $passwordPlano) {
     $sql = "SELECT id, pwd, username, name, surname, privilege
             FROM users
-            WHERE username = ? AND pwd = ?";
+            WHERE username = ?";
+
     $stmt = mysqli_prepare($conexion, $sql);
     if (!$stmt) return false;
 
-    mysqli_stmt_bind_param($stmt, "ss", $username, $passwordPlano);
+    mysqli_stmt_bind_param($stmt, "s", $username);
     mysqli_stmt_execute($stmt);
-    $resultado = mysqli_stmt_get_result($stmt);
 
-    if (mysqli_num_rows($resultado) === 1) {
-        return true;
+    $resultado = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_assoc($resultado);
+
+    // Si no existe usuario o password no coincide
+    if (!$user || !password_verify($passwordPlano, $user['pwd'])) {
+        return false;
     }
-    return false;
+    return true;
 }
 
+function comprobarCookieSesion() {
+    if (!isset($_COOKIE['UUID_Login']) 
+        || $_COOKIE['UUID_Login'] % 69 !== 0) {
 
+        header('Location: index.php');
+        exit();
+    }
+}
 ?>

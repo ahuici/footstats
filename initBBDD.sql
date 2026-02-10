@@ -27,17 +27,18 @@ CREATE TABLE players (
     FOREIGN KEY (creator_id) REFERENCES users(id)
 );
 
-INSERT INTO users (pwd, name, surname, age, gender, privilege) VALUES
-('hash1', 'Admin', 'Master', 35, 'hombre', 0),
-('hash2', 'Iker', 'Etxeberria', 22, 'hombre', 1),
-('hash3', 'Ane', 'Goikoetxea', 24, 'mujer', 1),
-('hash4', 'Unai', 'Aguirre', 21, 'hombre', 1),
-('hash5', 'Nahia', 'Aramburu', 23, 'mujer', 1),
-('hash6', 'Gaizka', 'Larrain', 28, 'hombre', 1),
-('hash7', 'Maialen', 'Olabarrieta', 26, 'mujer', 1),
-('hash8', 'Asier', 'Otegi', 27, 'hombre', 1),
-('hash9', 'Irati', 'Urrutia', 25, 'mujer', 1),
-('hash10', 'Jon', 'Zabala', 30, 'hombre', 1);
+INSERT INTO users (pwd, name, surname, age, gender, privilege, username) VALUES
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Admin', 'Master', 35, 'hombre', 0,'Admin'),
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Iker', 'Etxeberria', 22, 'hombre', 1,'Iker'),
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Ane', 'Goikoetxea', 24, 'mujer', 1, "Ane"),
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Unai', 'Aguirre', 21, 'hombre', 1, 'Unai'),
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Nahia', 'Aramburu', 23, 'mujer', 1,'Nahia'),
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Gaizka', 'Larrain', 28, 'hombre', 1, 'Gaizka'),
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Maialen', 'Olabarrieta', 26, 'mujer', 1, 'Mailen'),
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Asier', 'Otegi', 27, 'hombre', 1, 'Asier'),
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Irati', 'Urrutia', 25, 'mujer', 1, 'Irati'),
+('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Jon', 'Zabala', 30, 'hombre', 1, 'Jon');
+/*LA CONTRASEÑA $2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS ES PASS. "PASS"*/
 
 INSERT INTO players (creator_id, name, surname, number, team, selection, goals, position) VALUES
 (1, 'Sergio', 'Herrera', 1, 'CA Osasuna', 'España', 0, 'portero'),
