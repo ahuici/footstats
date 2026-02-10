@@ -1,6 +1,6 @@
 <?php
 // Configurar la conexión a la base de datos
-$conexion = mysqli_connect("localhost:3308", "root", "root");
+$conexion = mysqli_connect("localhost:3306", "root", "root");
 if (!$conexion){
     $error = "Imposible establecer conexión con el servidor de BD";
     include "error.php";
