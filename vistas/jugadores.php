@@ -1,59 +1,77 @@
-<!DOCTYPE html>
-<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FootStats - Dashboard Visual</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <style>
-        :root {
-            --primary-dark: #1d2671;
-            --accent: #c33764;
-        }
-        body { background-color: #f0f2f5; font-family: 'Segoe UI', sans-serif; }
-        
-        /* Sidebar lateral */
-        .sidebar {
-            background: var(--primary-dark);
-            min-height: 100vh;
-            color: white;
-            padding: 20px;
-        }
-        .nav-link { color: rgba(255,255,255,0.7); border-radius: 8px; margin-bottom: 5px; }
-        .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.1); color: white; }
-        
-        /* Contenedor de tabla */
-        .main-content { padding: 30px; }
-        .stats-card {
-            border: none;
-            border-radius: 12px;
-            transition: transform 0.2s;
-        }
-        .stats-card:hover { transform: translateY(-5px); }
-        .table-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            overflow: hidden;
-        }
-        .thead-custom { background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; }
-        .badge-position { width: 90px; }
-    </style>
-</head>
-<body>
+    <title>Footstats - Jugadores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-3 col-lg-2 sidebar d-none d-md-block">
-            <div class="text-center mb-4">
-                <h4 class="fw-bold"><i class="bi bi-trophy-fill me-2"></i>FOOTSTATS</h4>
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous"
+    >
+
+    <!-- Estilos propios opcionales -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<?php foreach ($jugadoresPorEquipo as $equipo => $info): ?>
+    <h2 class="mt-4 mb-3">
+        <?= htmlspecialchars(ucfirst(str_replace('_', ' ', $equipo))) ?>
+    </h2>
+
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+        <?php foreach ($info['players'] as $p): ?>
+            <?php
+            $fullName = trim(($p['firstname'] ?? '') . ' ' . ($p['lastname'] ?? ''));
+            if ($fullName === '') {
+                $fullName = $p['name'] ?? '';
+            }
+            $number = $p['number'] ?? null;
+            ?>
+            <div class="col">
+                <div class="card h-100">
+                    <?php if (!empty($p['photo'])): ?>
+                        <img src="<?= htmlspecialchars($p['photo']) ?>"
+                             class="card-img-top"
+                             alt="<?= htmlspecialchars($fullName) ?>">
+                    <?php endif; ?>
+
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <?= htmlspecialchars($fullName) ?>
+                        </h5>
+                        <p class="card-text mb-1">
+                            <strong>Equipo:</strong>
+                            <?= htmlspecialchars($p['team_name'] ?? '') ?>
+                        </p>
+                        <p class="card-text mb-1">
+                            <strong>Posición:</strong>
+                            <?= htmlspecialchars($p['position'] ?? '') ?>
+                        </p>
+                        <p class="card-text mb-1">
+                            <strong>Dorsal:</strong>
+                            <?= $number !== null ? htmlspecialchars((string)$number) : '-' ?>
+                        </p>
+                        <p class="card-text mb-1">
+                            <strong>Edad:</strong>
+                            <?= htmlspecialchars((string)($p['age'] ?? '-')) ?>
+                        </p>
+                        <p class="card-text mb-1">
+                            <strong>Nacionalidad:</strong>
+                            <?= htmlspecialchars($p['nationality'] ?? '') ?>
+                        </p>
+                        <p class="card-text mb-1">
+                            <strong>Altura:</strong>
+                            <?= htmlspecialchars($p['height'] ?? '-') ?> cm
+                        </p>
+                        <p class="card-text mb-0">
+                            <strong>Peso:</strong>
+                            <?= htmlspecialchars($p['weight'] ?? '-') ?> kg
+                        </p>
+                    </div>
+                </div>
             </div>
-            <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-person-badge me-2"></i> Jugadores</a></li>
-                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-shield-check me-2"></i> Equipos</a></li>
-                <hr>
-                <li class="nav-item"><a class="nav-link text-danger" href="#"><i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesión</a></li>
-            </ul>
-        </nav>
+        <?php endforeach; ?>
+    </div>
+<?php endforeach; ?>

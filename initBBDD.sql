@@ -25,6 +25,26 @@ CREATE TABLE players (
     FOREIGN KEY (creator_id) REFERENCES users(id)
 );
 
+CREATE TABLE api_players (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    api_player_id INT NOT NULL,
+    team_id INT NOT NULL,
+    season INT NOT NULL,
+    name VARCHAR(200),
+    firstname VARCHAR(200),
+    lastname VARCHAR(200),
+    age INT,
+    nationality VARCHAR(100),
+    position VARCHAR(50),
+    number INT,
+    height VARCHAR(10),
+    weight VARCHAR(10),
+    photo VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_player_season (api_player_id, season, team_id)
+);
+
+
 INSERT INTO users (pwd, name, surname, age, gender, privilege, username) VALUES
 ('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Admin', 'Master', 35, 'hombre', 0,'Admin'),
 ('$2y$10$A3Mo9wLAWkyCjQ0RPS6Ns.8QPet9H0aEazBJ.6aU3iq9bcfIEhmuS', 'Iker', 'Etxeberria', 22, 'hombre', 1,'Iker'),
