@@ -15,7 +15,7 @@
         }
         .register-container {
             width: 100%;
-            max-width: 400px; /* Igual al login para mantener simetría */
+            max-width: 600px; /* Igual al login para mantener simetría */
         }
     </style>
 </head>
@@ -25,42 +25,69 @@
     <div class="card shadow">
         <div class="card-body p-5"> <h3 class="text-center mb-4">Crear Cuenta</h3>
             
-            <form action="index.php" method="POST">
-                <div class="row g-2 mb-3">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="name" placeholder="Nombre" required>
-                    </div>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="surname" placeholder="Apellido" required>
-                    </div>
+        <form action="index.php" method="POST">
+            <div class="row g-2 mb-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control"
+                        name="name"
+                        placeholder="Nombre"
+                        value="<?= htmlspecialchars($old['name'] ?? '') ?>">
+                    <?php if (!empty($errores['name'])): ?>
+                        <div class="text-danger small"><?= $errores['name'] ?></div>
+                    <?php endif; ?>
                 </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control"
+                        name="surname"
+                        placeholder="Apellido"
+                        value="<?= htmlspecialchars($old['surname'] ?? '') ?>">
+                    <?php if (!empty($errores['surname'])): ?>
+                        <div class="text-danger small"><?= $errores['surname'] ?></div>
+                    <?php endif; ?>
+                </div>
+            </div>
 
-                <div class="mb-3">
-                    <input type="text" class="form-control" name="username" placeholder="Nombre usuario" required>
-                </div>
+            <div class="mb-3">
+                <input type="text" class="form-control"
+                    name="username"
+                    placeholder="Nombre usuario"
+                    value="<?= htmlspecialchars($old['username'] ?? '') ?>">
+                <?php if (!empty($errores['username'])): ?>
+                    <div class="text-danger small"><?= $errores['username'] ?></div>
+                <?php endif; ?>
+            </div>
 
-                <div class="mb-3">
-                    <input type="password" class="form-control" name="pwd" placeholder="Contraseña" required>
-                </div>
+            <div class="mb-3">
+                <input type="password" class="form-control"
+                    name="pwd"
+                    placeholder="Contraseña">
+                <?php if (!empty($errores['pwd'])): ?>
+                    <div class="text-danger small"><?= $errores['pwd'] ?></div>
+                <?php endif; ?>
+            </div>
 
-                <div class="row g-2 mb-3">
-                    <div class="col-md-5">
-                        <input type="number" class="form-control" name="age" min="1" max="120" placeholder="Edad" required>
-                    </div>
-                    <div class="col-md-7">
-                        <select class="form-select" name="gender" required>
-                            <option value="" selected disabled>Género</option>
-                            <option value="hombre">Masculino</option>
-                            <option value="mujer">Femenino</option>
-                            <option value="otro">Otro</option>
-                        </select>
-                    </div>
+            <div class="row g-2 mb-3">
+                <div class="col-md-5">
+                    <input type="number" class="form-control"
+                        name="age" min="1" max="120"
+                        placeholder="Edad">
                 </div>
+                <div class="col-md-7">
+                    <select class="form-select" name="gender">
+                        <option value="" disabled <?= empty($old['gender']) ? 'selected' : '' ?>>Género</option>
+                        <option value="hombre" <?= ($old['gender'] ?? '') === 'hombre' ? 'selected' : '' ?>>Masculino</option>
+                        <option value="mujer"  <?= ($old['gender'] ?? '') === 'mujer' ? 'selected' : '' ?>>Femenino</option>
+                        <option value="otro"   <?= ($old['gender'] ?? '') === 'otro' ? 'selected' : '' ?>>Otro</option>
+                    </select>
+                </div>
+            </div>
 
-                <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-primary" value="agregarUsuario" name="agregarUsuario">Registrarse</button>
-                </div>
-            </form>
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary"
+                        value="agregarUsuario" name="agregarUsuario">Registrarse</button>
+            </div>
+        </form>
+
             
             <div class="text-center mt-3">
                 <small class="text-muted">¿Ya tienes cuenta? <a href="index.php?page=login">Inicia sesión</a></small>

@@ -5,7 +5,7 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pwd VARCHAR(200),
     username VARCHAR(200),
-    name VARCHAR(200),
+    name VARCHAR(200) UNIQUE,
     surname VARCHAR(200),
     age INT,
     gender ENUM('hombre', 'mujer', 'otro'),

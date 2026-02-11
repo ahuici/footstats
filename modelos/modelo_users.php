@@ -78,6 +78,19 @@ function crearUsuario($conexion, $pwd, $username, $name, $surname, $age, $gender
     return $ok;
 }
 
+function existeUsuario(mysqli $conexion, string $username): bool {
+    $sql = "SELECT 1 FROM users WHERE username = ? LIMIT 1";
+    $stmt = mysqli_prepare($conexion, $sql);
+    if (!$stmt) return false;
+
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+
+    $existe = mysqli_stmt_num_rows($stmt) > 0;
+    mysqli_stmt_close($stmt);
+    return $existe;
+}
 
 /**
  * Función que edita la información de un criminal existente.
@@ -129,6 +142,7 @@ function login($conexion, $username, $passwordPlano) {
     }
     return true;
 }
+
 
 function comprobarCookieSesion() {
     if (!isset($_COOKIE['UUID_Login']) 
