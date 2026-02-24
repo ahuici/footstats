@@ -144,10 +144,10 @@ switch ($_GET["page"]) {
         include __DIR__."/../vistas/lista_usuarios.php";
         exit();
 
-    case 'editarPerfil':
+    case 'editar_perfil':
         comprobarCookieSesion();
 
-        include __DIR__."/../vistas/lista_usuarios.php";
+        include __DIR__."/../vistas/editar_perfil.php";
         exit();
 
     case 'logout':

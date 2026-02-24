@@ -61,7 +61,7 @@
                             <i class="bi bi-person-circle me-1"></i> Mi Perfil
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow">
-                            <li><a class="dropdown-item" href="?page=editarPerfil">Configuración</a></li>
+                            <li><a class="dropdown-item" href="?page=editar_perfil">Configuración</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="?page=logout">Cerrar Sesión</a></li>
                         </ul>
