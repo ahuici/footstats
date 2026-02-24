@@ -52,8 +52,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="?page=addPlayers">
-                            <i class="bi bi-plus-circle me-1"></i> Agregar Jugador
+                        <a class="nav-link" href="">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Refrescar BD
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -61,7 +61,7 @@
                             <i class="bi bi-person-circle me-1"></i> Mi Perfil
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow">
-                            <li><a class="dropdown-item" href="?page=editarPerfil">Configuración</a></li>
+                            <li><a class="dropdown-item" href="?page=editar_perfil">Configuración</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="?page=logout">Cerrar Sesión</a></li>
                         </ul>
