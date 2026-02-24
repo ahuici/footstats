@@ -21,11 +21,27 @@ require_once __DIR__ . '/../config/database.php';
  * @return array Datos del criminal encontrado.
  */
 
-function findByID($conexion, $id){
-   $sql = "SELECT * FROM users WHERE id = '$id'";
-   $resultado = mysqli_query($conexion, $sql);
-   return $resultado;
+function findById(mysqli $conexion, int $id): ?array {
+    $sql = "SELECT id, username, name, surname, age, gender, privilege 
+            FROM users 
+            WHERE id = ?";
+
+    $stmt = mysqli_prepare($conexion, $sql);
+    if (!$stmt) {
+        return null;
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+
+    $resultado = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_assoc($resultado);
+
+    mysqli_stmt_close($stmt);
+
+    return $user ?: null;
 }
+
 
 /**
  * Función que agrega un nuevo usuario a la base de datos.
@@ -258,4 +274,33 @@ function crearCookieSesionLogin(int $userId) {
         true    // httponly
     );
 }
+
+/**
+ * Actualiza los datos del perfil de un usuario.
+ */
+function updateUser(mysqli $conexion, int $id, string $username, string $name, string $surname, int $age, string $gender): bool {
+    $sql = "UPDATE users SET username = ?, name = ?, surname = ?, age = ?, gender = ? WHERE id = ?";
+    
+    $stmt = mysqli_prepare($conexion, $sql);
+    if (!$stmt) {
+        error_log("updateUser PREPARE failed: " . mysqli_error($conexion));
+        return false;
+    }
+    
+    // ORDEN CORRECTO: sssisi (4 strings + 2 ints)
+    mysqli_stmt_bind_param($stmt, "sssisi", $username, $name, $surname, $age, $gender, $id);
+    
+    if (!mysqli_stmt_execute($stmt)) {
+        error_log("updateUser EXECUTE failed: " . mysqli_stmt_error($stmt));
+        mysqli_stmt_close($stmt);
+        return false;
+    }
+    
+    $affected = mysqli_stmt_affected_rows($stmt); 
+    error_log("updateUser SUCCESS: affected_rows = $affected, id=$id");
+    
+    mysqli_stmt_close($stmt);
+    return $affected > 0;  // Solo TRUE si cambió algo
+}
+
 ?>

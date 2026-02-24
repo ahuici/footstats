@@ -1,7 +1,13 @@
 <?php
 require_once __DIR__ . '/../modelos/modelo_jugadores.php';
 require_once __DIR__ . '/../modelos/modelo_users.php';
-require_once __DIR__ . '/../modelos/modelo_api.php';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+file_put_contents('/tmp/php_debug.txt', "=== DEBUG INICIADO ===\n", FILE_APPEND);
+file_put_contents('/tmp/debug_post.txt', date('H:i:s') . " POST keys: " . implode(', ', array_keys($_POST ?? [])) . "\n", FILE_APPEND);
+
 include __DIR__."/../config/database.php";
 
 
@@ -101,7 +107,83 @@ else if (isset($_POST["loginUsuario"])) {
 
 
 // Manejar las solicitudes para agregar o editar criminales
+// ... tu código anterior hasta el final de loginUsuario ...
 
+else if (isset($_POST["id"]) && !isset($_POST["loginUsuario"]) && !isset($_POST["agregarUsuario"])) {
+    // 1. Validar cookie de nuevo (seguridad)
+    $userId = comprobarCookieSesion();
+    
+    $formId = intval($_POST["id"] ?? 0);
+    if ($userId !== $formId) {
+        header('Location: index.php?page=login');
+        exit();
+    }
+    
+    // 2. OBTENER DATOS ACTUALES DEL USUARIO (¡FALTABA!)
+    $usuarioActual = findById($conexion, $userId);
+    if (!$usuarioActual) {
+        header('Location: index.php?page=login');
+        exit();
+    }
+    
+    // 3. Recoger y limpiar datos del formulario
+    $username = trim(htmlspecialchars($_POST["username"] ?? ''));
+    $name     = trim(htmlspecialchars($_POST["name"] ?? ''));
+    $surname  = trim(htmlspecialchars($_POST["surname"] ?? ''));
+    $age      = intval($_POST["age"] ?? 0);
+    $gender   = $_POST["gender"] ?? 'otro';
+    
+    $errores = [];
+    
+    // 4. Validaciones
+    if (empty($username)) $errores["username"] = "Introduce un nombre de usuario";
+    if (empty($name))     $errores["name"]     = "Introduce un nombre";
+    if (empty($surname))  $errores["surname"]  = "Introduce un apellido";
+    
+    if (strtolower($username) == "admin") $errores["username"] = "El usuario no puede ser admin.";
+    
+    if (strlen($username) < 4) $errores["username"] = "Mínimo 4 caracteres";
+    if (strlen($name) < 2)     $errores["name"]     = "Mínimo 2 caracteres";
+    if (strlen($surname) < 2)  $errores["surname"]  = "Mínimo 2 caracteres";
+    
+    if ($age < 1 || $age > 120) $errores["age"] = "Edad entre 1 y 120 años";
+    
+    if (!in_array($gender, ['hombre', 'mujer', 'otro'])) $errores["gender"] = "Género inválido";
+    
+    // Username único SOLO si cambió y ya existe otro
+    // Username único SOLO si cambió y ya existe otro
+    $username_actual = $usuarioActual['username'] ?? '';
+    file_put_contents('/tmp/php_debug.txt', "DEBUG: username_form='$username' vs actual='$username_actual'\n", FILE_APPEND);
+    if ($username !== $username_actual && existeUsuario($conexion, $username)) {
+        $errores['username'] = 'Ese nombre de usuario ya está en uso';
+    }
+
+    file_put_contents('/tmp/php_debug.txt', "DEBUG: errores=" . json_encode($errores) . "\n", FILE_APPEND);
+    file_put_contents('/tmp/php_debug.txt', "DEBUG: Llamando updateUser id=$userId\n", FILE_APPEND);
+    
+    // 5. Si todo OK, actualizar
+    if (empty($errores)) {
+        if (updateUser($conexion, $userId, $username, $name, $surname, $age, $gender)) {
+            header("Location: index.php?page=verPlayers&msg=actualizado");
+            exit();
+        } else {
+            $errores['general'] = "Error al guardar cambios";
+        }
+    }
+
+    
+    // 6. Errores: recargar datos ORIGINALES del usuario (no los del form)
+    $usuario = findById($conexion, $userId);
+    $old = [
+        'name'     => $_POST["name"]     ?? $usuario['name'],
+        'surname'  => $_POST["surname"]  ?? $usuario['surname'],
+        'username' => $_POST["username"] ?? $usuario['username'],
+        'age'      => $_POST["age"]      ?? $usuario['age'],
+        'gender'   => $_POST["gender"]   ?? $usuario['gender'],
+    ];
+    include __DIR__ . "/../vistas/editar_perfil.php";
+    exit();
+}
 
 // Manejar las diferentes páginas
 switch ($_GET["page"]) {
@@ -135,8 +217,7 @@ switch ($_GET["page"]) {
         include __DIR__."/../vistas/refrescar_db.php";
         exit();
 
-
-    case 'editar_perfil':
+    case 'editarPerfil':
         $userId = comprobarCookieSesion();
 
         include __DIR__."/../vistas/editar_perfil.php";
