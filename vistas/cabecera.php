@@ -34,6 +34,9 @@
     </style>
 </head>
 <body>
+    <?php
+        $userId = leerUserIdDeCookie();
+    ?>
 
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
@@ -51,11 +54,15 @@
                             <i class="bi bi-people me-1"></i> Ver Jugadores
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">
-                            <i class="bi bi-arrow-clockwise me-1"></i> Refrescar BD
-                        </a>
-                    </li>
+                    
+                    <?php if ($userId === 1): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=refrescar_db">
+                                <i class="bi bi-arrow-clockwise me-1"></i> Refrescar BD
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle me-1"></i> Mi Perfil

@@ -187,6 +187,42 @@ function comprobarCookieSesion(): int {
     // Aquí la cookie es válida: devolvemos el id de usuario
     return (int)$payload['uid'];
 }
+
+function leerUserIdDeCookie(): ?int {
+    if (empty($_COOKIE['UUID_Login'])) {
+        return null;
+    }
+
+    $raw = base64_decode($_COOKIE['UUID_Login'], true);
+    if ($raw === false) {
+        return null;
+    }
+
+    $parts = explode('.', $raw, 2);
+    if (count($parts) !== 2) {
+        return null;
+    }
+
+    [$sig, $data] = $parts;
+
+    $calcSig = hash_hmac('sha256', $data, COOKIE_SECRET);
+    if (!hash_equals($sig, $calcSig)) {
+        return null;
+    }
+
+    $payload = json_decode($data, true);
+    if (!is_array($payload) || !isset($payload['uid'], $payload['v'])) {
+        return null;
+    }
+
+    if ($payload['v'] % 69 !== 0) {
+        return null;
+    }
+
+    return (int)$payload['uid'];
+}
+
+
 /* Variable para guardar la firma para forgar cookies */
 const COOKIE_SECRET = 'EsTo_3s_L4_Cl4v3_Qu3_Va_4.C1fR4R_Las_C00k1Es123123holakaixohelloegunonrootroot';
 

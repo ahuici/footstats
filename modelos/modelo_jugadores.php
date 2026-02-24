@@ -8,7 +8,7 @@ require_once __DIR__ . '/../config/database.php';
  */
 
  function getAllplayers($conexion) {
-    $sql = "SELECT * FROM players";
+    $sql = "SELECT * FROM api_players";
     $resultado = mysqli_query($conexion, $sql);
     return $resultado;
  }

@@ -184,17 +184,4 @@ function obtenerJugadoresDesdeBD(mysqli $conexion): array {
     return $salida;
 }
 
-
-// $jugadoresPorEquipo = obtenerJugadoresTodosEquipos();
-
-// foreach ($jugadoresPorEquipo as $equipo => $info) {
-//     guardarJugadoresEnBD($conexion, $equipo, $info['players'], 2024);
-// }
-
-$jugadoresPorEquipo = obtenerJugadoresDesdeBD($conexion);
-
-
-// Ejemplo: pasar a una vista
-include __DIR__ . '/../vistas/jugadores.php';
-
 ?>

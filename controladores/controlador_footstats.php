@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../modelos/modelo_jugadores.php';
 require_once __DIR__ . '/../modelos/modelo_users.php';
+require_once __DIR__ . '/../modelos/modelo_api.php';
 include __DIR__."/../config/database.php";
 
 
@@ -86,11 +87,10 @@ else if (isset($_POST["loginUsuario"])) {
         }
 
         crearCookieSesionLogin($respuestaLogin['id']);
-
-        $userId = comprobarCookieSesion();
         
         $allPlayers = getAllplayers($conexion);
-        include __DIR__ . "/../vistas/lista_players.php";
+
+        header('Location: index.php?page=verPlayers');
         exit();
     } else {
         include __DIR__ . "/../vistas/login.php";
@@ -107,12 +107,10 @@ else if (isset($_POST["loginUsuario"])) {
 switch ($_GET["page"]) {
     case 'login':
         //Si ya ha iniciado sesion
-       comprobarCookieSesion(); //Redirige a login si la cookie no es valida
-
         $userId = comprobarCookieSesion();
 
         $allPlayers = getAllplayers($conexion);
-        include __DIR__."/../vistas/lista_players.php";
+        include __DIR__."/../vistas/jugadores.php";
         exit();
 
 
@@ -120,19 +118,23 @@ switch ($_GET["page"]) {
         include __DIR__."/../vistas/register.php";
         exit();
     
-    
     case 'verPlayers':
         $userId = comprobarCookieSesion();
 
         $allPlayers = getAllplayers($conexion);
-        include __DIR__."/../vistas/lista_players.php";
+        include __DIR__."/../vistas/jugadores.php";
         exit();
 
-    case 'addPlayers':
+    case 'refrescar_db':
         $userId = comprobarCookieSesion();
-
-        include __DIR__."/../vistas/lista_usuarios.php";
+        if ($userId !== 1) {
+            $allPlayers = getAllplayers($conexion);
+            include __DIR__."/../vistas/jugadores.php";
+            exit();
+        }
+        include __DIR__."/../vistas/refrescar_db.php";
         exit();
+
 
     case 'editar_perfil':
         $userId = comprobarCookieSesion();
@@ -146,6 +148,27 @@ switch ($_GET["page"]) {
 
         include __DIR__."/../vistas/landing.php";
         exit();
+
+    case 'refrescar_db_accion':
+        $userId = leerUserIdDeCookie();
+
+        if ($userId !== 1) {
+            header('Location: index.php?page=verPlayers');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $jugadoresPorEquipo = obtenerJugadoresTodosEquipos();
+
+            foreach ($jugadoresPorEquipo as $equipo => $info) {
+                guardarJugadoresEnBD($conexion, $equipo, $info['players'], 2024);
+            }
+
+            header('Location: index.php?page=verPlayers');
+            exit();
+        }
+
+        break;
 
     default:
         $error = "Esa pagina no existe";

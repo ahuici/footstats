@@ -14,7 +14,8 @@
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
     <?php
-            echo "<h1>ID DEL USERE: $userId </h1>";
+
+    $allPlayers = getAllplayers($conexion);
 
     if (mysqli_num_rows($allPlayers) <= 0) {
         echo "<div class='col-12'><p class='text-center text-muted'>No hay jugadores registrados. Añade alguno para comenzar.</p></div>";
