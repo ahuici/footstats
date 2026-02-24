@@ -6,7 +6,7 @@ include __DIR__."/../config/database.php";
 
 
 if (!isset($_GET["page"]) && !isset($_POST["agregarUsuario"])&& !isset($_POST["loginUsuario"])){
-    include __DIR__."/../modelos/modelo_api.php";
+    include __DIR__."/../vistas/landing.php";
     exit();
 }
 

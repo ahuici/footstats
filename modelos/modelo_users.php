@@ -30,15 +30,6 @@ function findByID($conexion, $id){
 /**
  * Función que agrega un nuevo usuario a la base de datos.
  *
- * @param string $nombre Nombre del criminal.
- * @param string $alias Alias del criminal.
- * @param string $descripcion Descripción del criminal.
- * @return bool Éxito o fracaso de la operación.
- */
-
-/**
- * Función que agrega un nuevo usuario a la base de datos.
- *
  * @param mysqli $conexion Conexión a la base de datos.
  * @param string $pwd Contraseña (idealmente ya hasheada).
  * @param string $username Nombre de usuario.
