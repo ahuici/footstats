@@ -134,7 +134,7 @@ switch ($_GET["page"]) {
         include __DIR__."/../vistas/lista_usuarios.php";
         exit();
 
-    case 'editar_Perfil':
+    case 'editar_perfil':
         $userId = comprobarCookieSesion();
 
         include __DIR__."/../vistas/editar_perfil.php";
