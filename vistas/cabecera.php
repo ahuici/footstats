@@ -52,8 +52,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="?page=addPlayers">
-                            <i class="bi bi-plus-circle me-1"></i> Agregar Jugador
+                        <a class="nav-link" href="">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Refrescar BD
                         </a>
                     </li>
                     <li class="nav-item dropdown">
