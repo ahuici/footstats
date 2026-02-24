@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
+    <title>Editar perfil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -23,7 +23,7 @@
 
 <div class="register-container">
     <div class="card shadow">
-        <div class="card-body p-5"> <h3 class="text-center mb-4">Crear Cuenta</h3>
+        <div class="card-body p-5"> <h3 class="text-center mb-4">Editar perfil</h3>
             
         <form action="index.php" method="POST">
             <div class="row g-2 mb-3">
@@ -57,15 +57,6 @@
                 <?php endif; ?>
             </div>
 
-            <div class="mb-3">
-                <input type="password" class="form-control"
-                    name="pwd"
-                    placeholder="Contraseña">
-                <?php if (!empty($errores['pwd'])): ?>
-                    <div class="text-danger small"><?= $errores['pwd'] ?></div>
-                <?php endif; ?>
-            </div>
-
             <div class="row g-2 mb-3">
                 <div class="col-md-5">
                     <input type="number" class="form-control"
@@ -82,17 +73,12 @@
                 </div>
             </div>
 
-            <div class="d-grid mt-4">
+            <div class="d-grid mt-4 gap-1">
                 <button type="submit" class="btn btn-primary"
                         value="editarUsuario" name="editarUsuario">Guardar cambios</button>
                 <a href="?page=verPlayers" class="btn btn-outline-secondary">Cancelar</a>      
             </div>
         </form>
-
-            
-            <div class="text-center mt-3">
-                <small class="text-muted">¿Ya tienes cuenta? <a href="index.php?page=login">Inicia sesión</a></small>
-            </div>
         </div>
     </div>
 </div>
