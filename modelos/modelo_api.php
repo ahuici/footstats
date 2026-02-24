@@ -1,6 +1,6 @@
 <?php
 
-const API_FOOTBALL_KEY  = 'fc2bba719c4f2303ecba3ace44bb6dbe';
+const API_FOOTBALL_KEY  = '';
 const API_FOOTBALL_BASE = 'https://v3.football.api-sports.io';
 
 function apiFootballRequest(string $endpoint, array $params = []): ?array {
