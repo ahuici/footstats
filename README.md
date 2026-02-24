@@ -6,7 +6,8 @@ Abre la carpeta del git clone recién realizado y abre una terminal en dicha car
 docker compose up -d --build
 
 # en docker
-correr el docker con la flecha azul y acceder al enlace del puerto 8080
+correr el docker con la flecha azul y acceder al enlace del puerto 8080. 
+IMPORTANTE: ESPERAR 15 SEGUNDOS A QUE ESTÉ TODO CARGADO.
 
 # en la pagina web
 botón registrar: Acceder a interfaz de registro de usuario
