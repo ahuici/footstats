@@ -85,19 +85,10 @@ else if (isset($_POST["loginUsuario"])) {
             exit();
         }
 
-        /* COOKIES PARA VERIFICAR QUE HAS INICIADO SESION
-        * Mete en una cookie un numero random que al dividir entre 69 sea entero
-        */
-        $minK = intdiv(1000000000, 69) + 1;
-        $maxK = $minK + 1000000000;              
+        crearCookieSesionLogin($respuestaLogin['id']);
 
-        $k = random_int($minK, $maxK);
-        $valorCookie = $k * 69;  
-
-        // crear la cookie (1 hora de duración, en todo el sitio)
-        setcookie('UUID_Login', $valorCookie, time() + 3600, '/');
+        $userId = comprobarCookieSesion();
         
-
         $allPlayers = getAllplayers($conexion);
         include __DIR__ . "/../vistas/lista_players.php";
         exit();
@@ -116,10 +107,9 @@ else if (isset($_POST["loginUsuario"])) {
 switch ($_GET["page"]) {
     case 'login':
         //Si ya ha iniciado sesion
-        if (!isset($_COOKIE['UUID_Login']) || $_COOKIE['UUID_Login'] % 69 !== 0) {
-            include __DIR__."/../vistas/login.php";
-            exit();
-        }
+       comprobarCookieSesion(); //Redirige a login si la cookie no es valida
+
+        $userId = comprobarCookieSesion();
 
         $allPlayers = getAllplayers($conexion);
         include __DIR__."/../vistas/lista_players.php";
@@ -132,20 +122,20 @@ switch ($_GET["page"]) {
     
     
     case 'verPlayers':
-        comprobarCookieSesion();
+        $userId = comprobarCookieSesion();
 
         $allPlayers = getAllplayers($conexion);
         include __DIR__."/../vistas/lista_players.php";
         exit();
 
     case 'addPlayers':
-        comprobarCookieSesion();
+        $userId = comprobarCookieSesion();
 
         include __DIR__."/../vistas/lista_usuarios.php";
         exit();
 
     case 'editarPerfil':
-        comprobarCookieSesion();
+        $userId = comprobarCookieSesion();
 
         include __DIR__."/../vistas/lista_usuarios.php";
         exit();

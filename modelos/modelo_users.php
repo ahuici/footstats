@@ -131,16 +131,95 @@ function login($conexion, $username, $passwordPlano) {
     if (!$user || !password_verify($passwordPlano, $user['pwd'])) {
         return false;
     }
-    return true;
+
+    // Opcional: quitar el hash de la contraseña antes de devolver
+    unset($user['pwd']);
+
+    return $user; // array con id, username, name, surname, privilege...
 }
 
 
-function comprobarCookieSesion() {
-    if (!isset($_COOKIE['UUID_Login']) 
-        || $_COOKIE['UUID_Login'] % 69 !== 0) {
 
-        header('Location: index.php');
+/*
+ * Comprueba si la cookie es divisible entre 69, si da 0 es una cookie valida.
+ */
+function comprobarCookieSesion(): int {
+    if (empty($_COOKIE['UUID_Login'])) {
+        include __DIR__."/../vistas/login.php";
         exit();
     }
+
+    $raw = base64_decode($_COOKIE['UUID_Login'], true);
+    if ($raw === false) {
+        header('Location: index.php?page=login');
+        exit();
+    }
+
+    $parts = explode('.', $raw, 2);
+    if (count($parts) !== 2) {
+        header('Location: index.php?page=login');
+        exit();
+    }
+
+    [$sig, $data] = $parts;
+
+    $calcSig = hash_hmac('sha256', $data, COOKIE_SECRET);
+    if (!hash_equals($sig, $calcSig)) {
+        // cookie manipulada
+        header('Location: index.php?page=login');
+        exit();
+    }
+
+    $payload = json_decode($data, true);
+    if (!is_array($payload) || !isset($payload['uid'], $payload['v'])) {
+        header('Location: index.php?page=login');
+        exit();
+    }
+
+    $valorCookie = $payload['v'];
+
+    // tu check del múltiplo de 69
+    if ($valorCookie % 69 !== 0) {
+        header('Location: index.php?page=login');
+        exit();
+    }
+
+    // Aquí la cookie es válida: devolvemos el id de usuario
+    return (int)$payload['uid'];
+}
+/* Variable para guardar la firma para forgar cookies */
+const COOKIE_SECRET = 'EsTo_3s_L4_Cl4v3_Qu3_Va_4.C1fR4R_Las_C00k1Es123123holakaixohelloegunonrootroot';
+
+/*
+ * Crea una cookie multiplo de 69, para que sea facil de verificar. Ademas guarda el id del usuario
+ * dentro de la cookie para poder saber que usuario es el que esta logeado.
+ */
+function crearCookieSesionLogin(int $userId) {
+    // Tu lógica del múltiplo de 69
+    $minK = intdiv(1000000000, 69) + 1;
+    $maxK = $minK + 1000000000;
+
+    $k           = random_int($minK, $maxK);
+    $valorCookie = $k * 69;
+
+    // Payload con user_id + valor
+    $data = json_encode([
+        'uid' => $userId,      // id del usuario
+        'v'   => $valorCookie, // múltiplo de 69
+        'ts'  => time()        // timestamp opcional
+    ]);
+
+    $sig  = hash_hmac('sha256', $data, COOKIE_SECRET);
+    $pack = base64_encode($sig . '.' . $data);
+
+    setcookie(
+        'UUID_Login',
+        $pack,
+        time() + 3600,
+        '/',
+        '',
+        true,   // secure
+        true    // httponly
+    );
 }
 ?>

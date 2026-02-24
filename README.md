@@ -1,5 +1,4 @@
 # footstats
-
 docker compose up -d --build
 
 # entrar en mysql 
