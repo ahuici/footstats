@@ -39,8 +39,7 @@ Usamos una API que permite sacar los jugadores de futbol de ciertos equipos grat
 docker compose up -d --build
 
 # en docker
-correr el docker con la flecha azul y acceder al enlace del puerto 8080. 
-IMPORTANTE: ESPERAR 15 SEGUNDOS A QUE ESTÉ TODO CARGADO.
+correr el docker con la flecha azul y acceder al enlace del puerto 8080
 
 # en la pagina web
 botón registrar: Acceder a interfaz de registro de usuario
