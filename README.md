@@ -5,6 +5,7 @@
 2. Abre la carpeta del proyecto y abre una terminal en dicha carpeta
 3. Ejecuta el siguiente comando: docker compose up -d --build
 4. Ya tenemos el la imagen y el contenedor en el docker.
+5. Entrar en https://www.api-football.com/, copiar el API key y meterlo en .env. Mas adelante esta explicado
 
 # COMO ABRIR LA APLICACIÓN
 1. Entramos en docker y arrancamos el contenedor

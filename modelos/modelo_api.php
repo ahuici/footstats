@@ -1,6 +1,10 @@
 <?php
 
-const API_FOOTBALL_KEY  = '';
+require_once __DIR__ . '/../controladores/env.php';
+
+loadEnv(__DIR__ . '/../.env');
+
+define('API_FOOTBALL_KEY', $_ENV['API_KEY_FOOTBALL']);
 const API_FOOTBALL_BASE = 'https://v3.football.api-sports.io';
 
 function apiFootballRequest(string $endpoint, array $params = []): ?array {
