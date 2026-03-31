@@ -100,8 +100,6 @@ else if (isset($_POST["loginUsuario"])) {
 // Inicializar un array para almacenar errores
 
 
-// Manejar las solicitudes para agregar o editar criminales
-
 
 // Manejar las diferentes páginas
 switch ($_GET["page"]) {

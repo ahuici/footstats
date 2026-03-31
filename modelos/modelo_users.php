@@ -15,10 +15,10 @@ require_once __DIR__ . '/../config/database.php';
 
 
 /**
- * Función que obtiene un criminal por su ID.
+ * Función que obtiene un usuario por su ID.
  *
- * @param int $id Identificador del criminal.
- * @return array Datos del criminal encontrado.
+ * @param int $id Identificador del usuario.
+ * @return array Datos del usuario encontrado.
  */
 
 function findByID($conexion, $id){
@@ -82,36 +82,6 @@ function existeUsuario(mysqli $conexion, string $username): bool {
     mysqli_stmt_close($stmt);
     return $existe;
 }
-
-/**
- * Función que edita la información de un criminal existente.
- *
- * @param int $id Identificador del criminal.
- * @param string $nombre Nuevo nombre del criminal.
- * @param string $alias Nuevo alias del criminal.
- * @param string $descripcion Nueva descripción del criminal.
- * @return bool Éxito o fracaso de la operación.
- */
-
-function edit($conexion, $nombre, $alias, $descripcion, $id) {
-   $sql = "UPDATE criminales set nombre = '$nombre', alias = '$alias', descripcion =  '$descripcion' WHERE id = '$id'";
-   $resultado = mysqli_query($conexion, $sql);
-   if (!$resultado) return false;
-   return true;
-   
-}
-/**
- * Función que elimina un criminal de la base de datos.
- *
- * @param int $id Identificador del criminal.
- * @return bool Éxito o fracaso de la operación.
- */
- function deleteByID($conexion, $id) {
-    $sql = "DELETE FROM criminales WHERE id = '$id'";
-    $resultado = mysqli_query($conexion, $sql);
-    if (!$resultado) return false;
-    return true;
- }
 
 function login($conexion, $username, $passwordPlano) {
     $sql = "SELECT id, pwd, username, name, surname, privilege
