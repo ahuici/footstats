@@ -70,7 +70,12 @@
                         <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li><a class="dropdown-item" href="?page=editar_perfil">Editar perfil</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="?page=logout">Cerrar Sesión</a></li>
+                            <li>
+                                <form action="index.php?page=logout" method="POST" class="m-0 p-0">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                 </ul>

@@ -147,10 +147,26 @@ switch ($_GET["page"]) {
         exit();
 
     case 'logout':
-        setcookie('UUID_Login', '', time() - 3600, '/');
-        $logout = "Has cerrado sesion!";
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            exit('Método no permitido');
+        }
 
-        include __DIR__."/../vistas/landing.php";
+        $token = $_POST['csrf_token'] ?? '';
+
+        if (
+            empty($_SESSION['csrf_token']) ||
+            empty($token) ||
+            !hash_equals($_SESSION['csrf_token'], $token)
+        ) {
+            http_response_code(403);
+            exit('CSRF token inválido');
+        }
+
+        setcookie('UUID_Login', '', time() - 3600, '/');
+        unset($_SESSION['csrf_token']);
+
+        header('Location: index.php?page=login');
         exit();
 
     case 'refrescar_db_accion':
